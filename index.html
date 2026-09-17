@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#174e40"><meta name="description" content="把南京高校校徽一路合成，两个南京大学合成东南大学。手机拖动、电脑点击，挑战你的合成技巧。">
+<title>合成东南大学 · 南京高校合成小游戏</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23174e40'/%3E%3Ctext x='20' y='28' text-anchor='middle' fill='%23fffdf4' font-size='26' font-family='serif'%3E东%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<script>
+/* ES5 bootstrap stays inline so missing files or unsupported modern syntax can be explained. */
+(function(){
+ var done=false,failure=null,timer=null;
+ function el(id){return document.getElementById(id);}
+ function render(){
+  if(!failure||!el('loading'))return;
+  el('loading').hidden=false;el('loading-text').textContent=failure.text;
+  el('loading').querySelector('.loader').hidden=true;
+  el('status-label').textContent='启动未完成';
+  ['pause','restart','guide'].forEach(function(id){el(id).disabled=true;});
+  el('retry').hidden=!failure.retry;el('retry').onclick=function(){location.reload();};
+ }
+ function fail(kind,name){
+  if(done)return;clearTimeout(timer);
+  var messages={resource:'无法读取游戏资源'+(name?'（'+name+'）':'')+'。请打开单文件版，或用浏览器访问在线游戏。',browser:'当前浏览器缺少运行游戏所需的功能，请用新版浏览器打开。',startup:'游戏脚本未能完成启动。请用新版浏览器打开单文件版或在线游戏。',timeout:'游戏启动等待超时。请用浏览器打开单文件版，或检查资源是否可读取。'};
+  failure={text:messages[kind]||messages.startup,retry:kind!=='browser'};render();
+ }
+ function check(){
+  var c=document.createElement('canvas'),d=document.createElement('dialog');
+  if(!window.Promise||!window.Map||!window.PointerEvent||!window.requestAnimationFrame||!c.getContext||!c.getContext('2d')||typeof d.showModal!=='function'){fail('browser');return false;}return true;
+ }
+ window.GameBoot={check:check,fail:fail,begin:function(){failure=null;clearTimeout(timer);timer=setTimeout(function(){fail('timeout');},20000);},ready:function(){done=true;failure=null;clearTimeout(timer);window.MergeGameReady=true;el('guide').disabled=false;}};
+ window.addEventListener('error',function(e){if(e.target&&e.target.tagName==='SCRIPT')fail('resource',(e.target.getAttribute('src')||'脚本').split('/').pop());else if(e.message)fail('startup');},true);
+ document.addEventListener('DOMContentLoaded',function(){if(failure)render();else check();});
+ window.addEventListener('load',function(){if(failure){render();return;}if(!check())return;if(!window.MergeAppStarted)fail('resource','启动脚本');});
+ timer=setTimeout(function(){fail('timeout');},20000);
+})();
+</script>
+<script defer src="assets/matter.min.js"></script><script defer src="core.js"></script><script defer src="assets.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./" aria-label="合成东南大学首页"><span class="brand-mark">东</span><span>合成东南大学</span></a><span class="edition">南京高校限定</span><div class="toolbar"><button id="pause" class="icon-button" disabled><span aria-hidden="true">Ⅱ</span><span>暂停</span></button><button id="restart" class="icon-button" disabled><span aria-hidden="true">↻</span><span>重开</span></button><button id="guide" class="icon-button guide-button"><span aria-hidden="true">▦</span><span>图鉴</span></button></div></header>
+<main class="layout">
+ <section class="intro" aria-label="本局信息">
+  <div class="intro-heading"><p class="eyebrow">十一枚校徽，一座南京</p><h1>一路合成，<br>直到<span>东南大学。</span></h1><p class="intro-copy">让相同的校徽相遇。<br>下一次碰撞，也许就是惊喜。</p></div>
+  <div class="score-block"><span class="label">本局得分</span><strong id="score">0</strong><span class="score-unit">POINTS</span></div>
+  <div class="next-block"><div><span class="label">下一个</span><strong id="next-name">准备中</strong></div><canvas id="next-badge" width="112" height="112" role="img" aria-label="下一个校徽"></canvas></div>
+  <div class="goal-block"><span class="label">终极合成</span><div class="goal-equation"><canvas data-school="9" width="100" height="100" role="img" aria-label="南京大学校徽"></canvas><b>＋</b><canvas data-school="9" width="100" height="100" role="img" aria-label="南京大学校徽"></canvas><b>＝</b><canvas data-school="10" width="120" height="120" role="img" aria-label="东南大学校徽"></canvas></div><p>南大 ＋ 南大 ＝ 东大</p></div>
+  <div class="desktop-help"><span class="help-index">01</span><p>移动瞄准，点击投放</p><span class="help-index">02</span><p>相同校徽，碰撞升级</p><span class="help-index">03</span><p>合出东大，即刻通关</p></div>
+ </section>
+ <section class="play-column" aria-label="游戏">
+  <div class="board-top"><span><i></i><span id="status-label">准备校徽</span></span><span id="progress-label">目标：东南大学</span></div>
+  <div class="board" id="board"><canvas id="game" width="880" height="1240" tabindex="0" role="application" aria-label="校徽合成游戏。手机拖动松手投放，电脑点击投放。也可用左右方向键瞄准、空格投放。"></canvas><div class="first-hint" id="first-hint" hidden><span>轻轻一放，好事成双</span><small class="touch-copy">拖动瞄准 · 松手投放</small><small class="mouse-copy">移动瞄准 · 点击投放</small></div><div class="board-loading" id="loading"><span class="loader"></span><strong id="loading-text">游戏正在启动…</strong><noscript><style>#loading-text,.loader{display:none!important}</style><strong id="no-script-message" role="alert">当前打开方式没有执行游戏脚本。文件预览器只能显示页面，无法运行游戏。</strong></noscript><p class="startup-help">如果停留在此页，请使用浏览器打开单文件版；预览器不支持运行时，请改用在线游戏。在线版需登录有访问权限的账号。</p><a class="startup-online" href="https://merge-seu-nanjing-915.tzs20080112.chatgpt.site" target="_blank" rel="noopener">打开在线游戏</a><button id="retry" class="primary-button" hidden>重新加载</button></div></div>
+  <div class="under-board"><span class="touch-copy">拖动瞄准，松手投放</span><span class="mouse-copy">移动鼠标瞄准，点击投放</span><span class="danger-hint">越线持续 2 秒结束</span></div>
+  <p class="live-feedback" id="feedback" aria-live="polite">相同校徽碰在一起，就能合成下一级</p>
+ </section>
+ <aside class="atlas" aria-label="合成图鉴"><div class="section-heading"><h2>合成图鉴</h2><span>01 — 11</span></div><p class="atlas-note">从南信大出发，向东大进阶</p><ol id="school-list"></ol><p class="ranking-note">前九级参考 2026 软科主榜<br>南大 → 东大为趣味设定</p></aside>
+</main>
+<footer><span>南京高校校徽合成挑战</span><span>碰在一起，就是下一站。</span></footer>
+<dialog id="modal"><div class="dialog-body"><button id="close-modal" class="close-button" aria-label="关闭">×</button><div id="modal-content"></div></div></dialog>
+</body></html>
