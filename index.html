@@ -35,7 +35,7 @@
  timer=setTimeout(function(){fail('timeout');},20000);
 })();
 </script>
-<script defer src="assets/matter.min.js"></script><script defer src="core.js"></script><script defer src="assets.js"></script><script defer src="app.js"></script>
+<script defer src="assets/matter.min.js"></script><script defer src="core.js"></script><script defer src="save.js"></script><script defer src="assets.js"></script><script defer src="app.js"></script>
 </head>
 <body>
 <header class="topbar"><a class="brand" href="./" aria-label="合成东南大学首页"><span class="brand-mark">东</span><span>合成东南大学</span></a><span class="edition">南京高校限定</span><div class="toolbar"><button id="pause" class="icon-button" disabled><span aria-hidden="true">Ⅱ</span><span>暂停</span></button><button id="restart" class="icon-button" disabled><span aria-hidden="true">↻</span><span>重开</span></button><button id="guide" class="icon-button guide-button"><span aria-hidden="true">▦</span><span>图鉴</span></button></div></header>
@@ -51,10 +51,12 @@
   <div class="board-top"><span><i></i><span id="status-label">准备校徽</span></span><span id="progress-label">目标：东南大学</span></div>
   <div class="board" id="board"><canvas id="game" width="880" height="1240" tabindex="0" role="application" aria-label="校徽合成游戏。手机拖动松手投放，电脑点击投放。也可用左右方向键瞄准、空格投放。"></canvas><div class="first-hint" id="first-hint" hidden><span>轻轻一放，好事成双</span><small class="touch-copy">拖动瞄准 · 松手投放</small><small class="mouse-copy">移动瞄准 · 点击投放</small></div><div class="board-loading" id="loading"><span class="loader"></span><strong id="loading-text">游戏正在启动…</strong><noscript><style>#loading-text,.loader{display:none!important}</style><strong id="no-script-message" role="alert">当前打开方式没有执行游戏脚本。文件预览器只能显示页面，无法运行游戏。</strong></noscript><p class="startup-help">如果停留在此页，请使用浏览器打开单文件版；预览器不支持运行时，请改用在线游戏。在线版需登录有访问权限的账号。</p><a class="startup-online" href="https://merge-seu-nanjing-915.tzs20080112.chatgpt.site" target="_blank" rel="noopener">打开在线游戏</a><button id="retry" class="primary-button" hidden>重新加载</button></div></div>
   <div class="under-board"><span class="touch-copy">拖动瞄准，松手投放</span><span class="mouse-copy">移动鼠标瞄准，点击投放</span><span class="danger-hint">越线持续 2 秒结束</span></div>
-  <p class="live-feedback" id="feedback" aria-live="polite">相同校徽碰在一起，就能合成下一级</p>
+ <p class="live-feedback" id="feedback" aria-live="polite">相同校徽碰在一起，就能合成下一级</p>
+ <div class="save-bar"><span id="save-status">准备自动保存</span><button id="records" class="records-button" disabled>本机记录与成就</button></div>
  </section>
  <aside class="atlas" aria-label="合成图鉴"><div class="section-heading"><h2>合成图鉴</h2><span>01 — 11</span></div><p class="atlas-note">从南信大出发，向东大进阶</p><ol id="school-list"></ol><p class="ranking-note">前九级参考 2026 软科主榜<br>南大 → 东大为趣味设定</p></aside>
 </main>
 <footer><span>南京高校校徽合成挑战</span><span>碰在一起，就是下一站。</span></footer>
+<div id="achievement-toast" class="achievement-toast" role="status" hidden></div>
 <dialog id="modal"><div class="dialog-body"><button id="close-modal" class="close-button" aria-label="关闭">×</button><div id="modal-content"></div></div></dialog>
 </body></html>

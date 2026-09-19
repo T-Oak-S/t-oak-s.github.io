@@ -13,6 +13,34 @@
 @media(max-width:700px){.topbar{height:65px;padding:0 16px;border:0;gap:0}.brand{font-size:16px;gap:8px;letter-spacing:0}.brand-mark{width:30px;height:30px;font-size:21px;border-radius:9px}.edition{display:none}.toolbar{gap:0}.icon-button{padding:8px;gap:5px;font-size:12px}.icon-button>span:first-child{font-size:19px}.guide-button{display:flex}.layout{display:flex;flex-direction:column;gap:0;margin:0 auto;max-width:460px;padding:0 14px}.intro{display:flex;align-items:center;justify-content:space-between;width:100%;padding:8px 4px 15px;gap:20px}.intro-heading,.goal-block,.desktop-help,.score-unit{display:none}.score-block{padding:0;display:flex;align-items:baseline;gap:10px}.score-block strong{font-size:34px;letter-spacing:-.04em}.score-block .label{font-size:12px}.next-block{padding:0;border:0;gap:8px;flex-direction:row-reverse}.next-block canvas{width:40px;height:40px}.next-block strong{font-size:12px;margin-top:3px}.next-block .label{font-size:11px}.play-column{width:100%}.board-top{height:24px;font-size:11px;padding:0 4px 10px}.board{border-radius:18px}.under-board{font-size:11px;padding-top:12px}.live-feedback{font-size:12px;margin:10px 0 0}.atlas{display:none}footer{font-size:10px;padding:18px 18px 20px;margin-top:20px}footer span:last-child{display:none}.first-hint span{font-size:18px}.dialog-body{padding:35px 25px}.ranking-note{font-size:11px}}
 @media(pointer:coarse){.touch-copy{display:block}.mouse-copy{display:none}}
 @media(min-width:1001px){h1{font-size:32px}}
+/* Fit the fixed 440 × 620 scene into the available mobile screen. */
+@media(max-width:700px){
+ body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+ .topbar{height:60px;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+ .intro{padding:4px 4px 10px;gap:10px;min-height:56px}
+ .score-block{gap:7px}.score-block strong{font-size:30px}
+ .play-column{display:flex;flex-direction:column;align-items:center}
+ .board-top,.under-board,.live-feedback{width:100%}
+ .board{width:min(100%,calc((100svh - 222px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*440/620));min-width:200px}
+ .under-board{padding-top:8px}.live-feedback{margin-top:7px}
+ footer{margin-top:10px;padding-top:12px;padding-bottom:12px}
+ .board-loading{padding:16px;gap:12px;overflow-y:auto}.startup-help{font-size:12px}
+ .icon-button{min-width:44px;min-height:44px}
+}
+@media(orientation:landscape) and (max-height:550px) and (min-width:600px){
+ body{padding:0 env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+ .topbar{height:52px;max-width:760px}.edition,.intro-heading,.goal-block,.desktop-help,.score-unit,.atlas,footer{display:none}
+ .guide-button{display:flex}.layout{display:grid;grid-template-columns:180px minmax(220px,360px);justify-content:center;gap:22px;margin:8px auto 0;padding:0 12px}
+ .intro{display:block;padding-top:24px}.score-block{display:block;padding-bottom:18px}.score-block strong{font-size:42px}
+ .next-block{display:flex;flex-direction:row;border-top:1px solid var(--line);padding-top:18px}.play-column{display:flex;flex-direction:column;align-items:center}
+ .board{width:calc((100svh - 134px)*440/620);min-width:160px;max-width:100%;border-radius:14px}
+ .board-top,.under-board,.live-feedback{width:100%;font-size:11px}.under-board{padding-top:6px}.live-feedback{margin-top:4px}
+ .first-hint span{font-size:14px}.first-hint small{font-size:10px}.board-loading{padding:10px;gap:8px;overflow-y:auto;justify-content:flex-start}.startup-help{font-size:11px}
+}
+.board.is-danger{border-color:#bd7154;box-shadow:0 0 0 2px #bd715424}.board.is-danger+.under-board .danger-hint{color:#a34328;font-weight:600}
+.save-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;font-size:11px;color:var(--muted);margin-top:3px;min-height:44px}.save-bar>span{min-width:0;overflow-wrap:anywhere}.records-button{flex-shrink:0;border:0;background:transparent;color:var(--green);text-decoration:underline;text-underline-offset:4px;min-height:44px;padding:8px 4px;font-size:12px}.record-stats{margin:24px 0;text-align:left}.record-stats>div{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.record-stats dt{font-size:13px;color:var(--muted)}.record-stats dd{margin:0;font-size:15px;font-weight:650;text-align:right}.achievement-list{padding:0;margin:0;list-style:none;text-align:left}.achievement-list li{padding:12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;color:var(--muted)}.achievement-list li.unlocked{background:#e8eedf;color:var(--green);border-color:#c8d6bd}.achievement-list strong,.achievement-list span{display:block}.achievement-list strong{font-size:14px}.achievement-list span{font-size:12px;margin-top:5px;line-height:1.6}.dialog-body .storage-note{font-size:12px;text-align:left}.achievement-toast{position:fixed;bottom:max(18px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);background:var(--green);color:var(--surface);padding:12px 18px;border-radius:12px;font-size:14px;line-height:1.6;z-index:1000;pointer-events:none;box-shadow:0 6px 24px #173e4028}
+@media(max-width:700px){.board{width:min(100%,calc((100svh - 266px - env(safe-area-inset-top) - env(safe-area-inset-bottom))*440/620))}.save-bar{font-size:10px}.records-button{font-size:11px}.record-stats dd{font-size:14px}}
+@media(orientation:landscape) and (max-height:550px) and (min-width:600px){.board{width:calc((100svh - 178px)*440/620)}.save-bar{font-size:10px}.records-button{font-size:11px}}
 @media(max-width:360px){.brand{font-size:14px}.icon-button{padding:7px 5px}.icon-button>span:first-child{display:none}.layout{padding:0 10px}.next-block strong{max-width:110px}.danger-hint{font-size:10px}}
 
 </style>
@@ -61,11 +89,13 @@
   <div class="board-top"><span><i></i><span id="status-label">准备校徽</span></span><span id="progress-label">目标：东南大学</span></div>
   <div class="board" id="board"><canvas id="game" width="880" height="1240" tabindex="0" role="application" aria-label="校徽合成游戏。手机拖动松手投放，电脑点击投放。也可用左右方向键瞄准、空格投放。"></canvas><div class="first-hint" id="first-hint" hidden><span>轻轻一放，好事成双</span><small class="touch-copy">拖动瞄准 · 松手投放</small><small class="mouse-copy">移动瞄准 · 点击投放</small></div><div class="board-loading" id="loading"><span class="loader"></span><strong id="loading-text">游戏正在启动…</strong><noscript><style>#loading-text,.loader{display:none!important}</style><strong id="no-script-message" role="alert">当前打开方式没有执行游戏脚本。文件预览器只能显示页面，无法运行游戏。</strong></noscript><p class="startup-help">如果停留在此页，请使用浏览器打开单文件版；预览器不支持运行时，请改用在线游戏。在线版需登录有访问权限的账号。</p><a class="startup-online" href="https://merge-seu-nanjing-915.tzs20080112.chatgpt.site" target="_blank" rel="noopener">打开在线游戏</a><button id="retry" class="primary-button" hidden>重新加载</button></div></div>
   <div class="under-board"><span class="touch-copy">拖动瞄准，松手投放</span><span class="mouse-copy">移动鼠标瞄准，点击投放</span><span class="danger-hint">越线持续 2 秒结束</span></div>
-  <p class="live-feedback" id="feedback" aria-live="polite">相同校徽碰在一起，就能合成下一级</p>
+ <p class="live-feedback" id="feedback" aria-live="polite">相同校徽碰在一起，就能合成下一级</p>
+ <div class="save-bar"><span id="save-status">准备自动保存</span><button id="records" class="records-button" disabled>本机记录与成就</button></div>
  </section>
  <aside class="atlas" aria-label="合成图鉴"><div class="section-heading"><h2>合成图鉴</h2><span>01 — 11</span></div><p class="atlas-note">从南信大出发，向东大进阶</p><ol id="school-list"></ol><p class="ranking-note">前九级参考 2026 软科主榜<br>南大 → 东大为趣味设定</p></aside>
 </main>
 <footer><span>南京高校校徽合成挑战</span><span>碰在一起，就是下一站。</span></footer>
+<div id="achievement-toast" class="achievement-toast" role="status" hidden></div>
 <dialog id="modal"><div class="dialog-body"><button id="close-modal" class="close-button" aria-label="关闭">×</button><div id="modal-content"></div></div></dialog>
 <script>
 /*!
@@ -92,9 +122,18 @@
   ['nju','南京大学','南大',84,'#836195',null],
   ['seu','东南大学','东大',98,'#185746',null]
  ].map(([id,name,short,radius,color,rank])=>({id,name,short,radius,color,rank}));
+ function validateSnapshot(s){
+  const num=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
+  const int=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
+  if(!s||s.version!==1||!['playing','paused','won','lost'].includes(s.state)||!int(s.score,0,Number.MAX_SAFE_INTEGER)||!int(s.highest,0,10)||!int(s.current,0,4)||!int(s.next,0,4)||!num(s.time,0,1e12)||!num(s.lastDrop,-1000,s.time)||!num(s.danger,0,2100)||!Array.isArray(s.pieces)||s.pieces.length>2000)throw new Error('无效的对局存档');
+  for(const p of s.pieces){
+   if(!p||!int(p.level,0,10)||!num(p.x,-WIDTH,WIDTH*2)||!num(p.y,-HEIGHT*3,HEIGHT*2)||!num(p.vx,-1e4,1e4)||!num(p.vy,-1e4,1e4)||!num(p.angle,-1e10,1e10)||!num(p.angularVelocity,-1e4,1e4)||!num(p.deltaTime,.001,1000)||!num(p.born,0,s.time)||typeof p.entered!=='boolean'||!(p.overSince===null||num(p.overSince,0,s.time)))throw new Error('无效的校徽存档');
+  }
+  return s;
+ }
  function createGame(M,options={}){
   const rng=options.rng||Math.random,notify=()=>options.onChange?.(g);
-  const g={engine:null,bodies:new Map(),state:'playing',score:0,time:0,danger:0,current:0,next:0,lastDrop:-1000,highest:0,drop,spawn,step,pause,resume,restart};
+  const g={engine:null,bodies:new Map(),state:'playing',score:0,time:0,danger:0,current:0,next:0,lastDrop:-1000,highest:0,drop,spawn,step,pause,resume,restart,exportState,restoreState};
   let queue=[];
   function randomLevel(){return Math.min(4,Math.max(0,Math.floor(rng()*5)));}
   function restart(){
@@ -153,9 +192,78 @@
   }
   function pause(){if(g.state==='playing'){g.state='paused';notify();}}
   function resume(){if(g.state==='paused'){g.state='playing';notify();}}
+  function exportState(){
+   return {version:1,state:g.state,score:g.score,time:g.time,danger:g.danger,current:g.current,next:g.next,lastDrop:g.lastDrop,highest:g.highest,pieces:[...g.bodies.values()].map(b=>({level:b.plugin.level,x:b.position.x,y:b.position.y,vx:M.Body.getVelocity(b).x,vy:M.Body.getVelocity(b).y,angle:b.angle,angularVelocity:M.Body.getAngularVelocity(b),deltaTime:b.deltaTime,born:b.plugin.born,entered:b.plugin.entered,overSince:b.plugin.overSince}))};
+  }
+  function restoreState(snapshot){
+   const s=validateSnapshot(snapshot);
+   if(!['playing','paused'].includes(s.state))throw new Error('已结束对局不能恢复');
+   restart();
+   for(const key of ['score','time','danger','current','next','lastDrop','highest'])g[key]=s[key];
+   g.engine.timing.timestamp=s.time;
+   for(const p of s.pieces){const b=spawn(p.level,p.x,p.y,{born:p.born,entered:p.entered,overSince:p.overSince});M.Body.setPosition(b,{x:p.x,y:p.y});M.Body.setAngle(b,p.angle);b.deltaTime=p.deltaTime;M.Body.setVelocity(b,{x:p.vx,y:p.vy});M.Body.setAngularVelocity(b,p.angularVelocity);}
+   g.state='paused';queue=[];notify();return g;
+  }
   restart();return g;
  }
- return {createGame,SCHOOLS,WIDTH,HEIGHT,LINE};
+ return {createGame,SCHOOLS,WIDTH,HEIGHT,LINE,validateSnapshot};
+});
+
+</script>
+<script>
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./core.js'));else root.MergeSave=factory(root.MergeCore);})(typeof globalThis!=='undefined'?globalThis:this,function(Core){
+ 'use strict';
+ const KEY='merge-seu.save.v1',LOCK='merge-seu.save';
+ const ACHIEVEMENTS=[
+  {id:'first',name:'初次相遇',condition:'首次完成任意合成',test:s=>s.highest>=1},
+  {id:'nuaa',name:'飞向南航',condition:'首次合成南京航空航天大学',test:s=>s.highest>=7},
+  {id:'nju',name:'抵达南大',condition:'首次合成南京大学',test:s=>s.highest>=9},
+  {id:'seu',name:'圆梦东南',condition:'首次合成东南大学',test:s=>s.wins>=1},
+  {id:'five',name:'东南常客',condition:'累计通关5次',test:s=>s.wins>=5}
+ ];
+ const empty=()=>({version:1,revision:0,owner:'',updatedAt:0,round:null,lastSettled:null,stats:{bestScore:0,highest:-1,wins:0,achievements:{}}});
+ const integer=(n,min=0)=>Number.isSafeInteger(n)&&n>=min;
+ const id=s=>typeof s==='string'&&s.length>0&&s.length<200;
+ function decode(raw){
+  if(raw===null)return {data:empty(),issue:''};
+  let d;try{d=JSON.parse(raw);if(d.version!==1||!integer(d.revision)||typeof d.owner!=='string'||!integer(d.updatedAt)||!(d.lastSettled===null||id(d.lastSettled))||!d.stats||!integer(d.stats.bestScore)||!integer(d.stats.wins)||!integer(d.stats.highest,-1)||d.stats.highest>10||!d.stats.achievements||typeof d.stats.achievements!=='object')throw Error();
+   for(const [key,date] of Object.entries(d.stats.achievements))if(!ACHIEVEMENTS.some(a=>a.id===key)||!integer(date))throw Error();
+  }catch{return {data:empty(),issue:'存档损坏或版本不支持，无法恢复。可以开始新局。'};}
+  let issue='';
+  if(d.round!==null){try{const r=d.round;if(!r||!id(r.id)||!integer(r.savedAt)||!Number.isFinite(r.aim)||r.aim<0||r.aim>Core.WIDTH)throw Error();Core.validateSnapshot(r.snapshot);if(!['playing','paused'].includes(r.snapshot.state))throw Error();}catch{d.round=null;issue='上次对局存档无效，历史记录已保留。可以开始新局。';}}
+  return {data:d,issue};
+ }
+ function createStore({storage,lock,owner,now=Date.now}){
+  let data=empty(),available=typeof lock==='function',issue='',chain=Promise.resolve();
+  function read(){if(!available)return;try{const result=decode(storage().getItem(KEY));data=result.data;if(result.issue)issue=result.issue;}catch{available=false;}}
+  function write(){data.revision++;data.updatedAt=now();if(available)try{storage().setItem(KEY,JSON.stringify(data));}catch{available=false;}}
+  // All read/modify/write work happens under one origin-wide Web Lock.
+  function transaction(fn){
+   const run=()=>{read();const result=fn();return {data,available,issue,...result};};
+   const execute=async()=>{if(!available)return run();let ran=false;try{return await lock(()=>{ran=true;return run();});}catch(e){if(ran)throw e;available=false;return run();}};
+   const result=chain.then(execute);chain=result.catch(()=>{});return result;
+  }
+  return {
+   get data(){return data;},get available(){return available;},get issue(){return issue;},
+   claim:()=>transaction(()=>{data.owner=owner;write();return {}; }),
+   start:(roundId,snapshot,aim)=>transaction(()=>{
+    if(data.owner!==owner)return {conflict:true};Core.validateSnapshot(snapshot);
+    data.round={id:roundId,snapshot,aim,savedAt:now()};write();return {};
+   }),
+   save:(roundId,snapshot,aim)=>transaction(()=>{
+    if(data.owner!==owner)return {conflict:true};
+    if(data.lastSettled===roundId)return {unlocked:[]};
+    if(data.round?.id!==roundId)return {conflict:true};
+    Core.validateSnapshot(snapshot);const s=data.stats;
+    s.bestScore=Math.max(s.bestScore,snapshot.score);if(snapshot.highest>0)s.highest=Math.max(s.highest,snapshot.highest);
+    if(snapshot.state==='won')s.wins++;
+    const unlocked=[];for(const a of ACHIEVEMENTS)if(!Object.hasOwn(s.achievements,a.id)&&a.test(s)){s.achievements[a.id]=now();unlocked.push(a.name);}
+    if(['won','lost'].includes(snapshot.state)){data.round=null;data.lastSettled=roundId;}else data.round={id:roundId,snapshot,aim,savedAt:now()};
+    write();return {unlocked};
+   })
+  };
+ }
+ return {KEY,LOCK,ACHIEVEMENTS,createStore,decode};
 });
 
 </script>
@@ -167,11 +275,56 @@ window.BADGE_ASSETS = {"seu":{"rect":[0,0,578,578],"src":"data:image/png;base64,
 (()=>{
  'use strict';
  if(!window.GameBoot||!GameBoot.check())return;
- if(!window.MergeCore||!window.Matter||!window.BADGE_ASSETS){GameBoot.fail('resource','脚本或校徽清单');return;}
+ if(!window.MergeCore||!window.MergeSave||!window.Matter||!window.BADGE_ASSETS){GameBoot.fail('resource','脚本或校徽清单');return;}
  const {SCHOOLS,WIDTH,HEIGHT,LINE,createGame}=MergeCore;
  const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('2d');
  const images=new Map(),sources=window.BADGE_ASSETS||{},particles=[];
  let game=null,ready=false,aim=WIDTH/2,activePointer=null,lastFrame=0,accumulator=0,modalKind='',returnToPlaying=false,lastState='',loadingAttempt=0;
+ const uid=()=>globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
+ const owner=uid(),store=MergeSave.createStore({owner,storage:()=>window.localStorage,lock:navigator.locks?.request?fn=>navigator.locks.request(MergeSave.LOCK,fn):null});
+ let roundId=null,owns=false,switching=false,saveQueued=false,toastTimer,dialogRevision=0;
+ function saveStatus(){
+  $('save-status').textContent=!store.available?'当前环境无法保存进度':!owns?'对局已在其他页面打开':store.data.round?'已保存 '+new Date(store.data.round.savedAt).toLocaleTimeString('zh-CN',{hour12:false}):'记录已保存';
+ }
+ function takenOver(){
+  if(!ready)return;owns=false;activePointer=null;game.pause();saveStatus();
+  showDialog('takeover','<h2>已在其他页面打开</h2><p>本页已暂停，避免覆盖最新进度。</p><div class="dialog-actions"><button id="read-latest" class="primary-button">读取最新对局</button></div>',{closable:false});
+  $('read-latest').onclick=offerSaved;
+ }
+ async function saveNow(){
+  if(!ready||!owns||switching||!roundId)return;
+  try{const result=await store.save(roundId,game.exportState(),aim);if(result.conflict){takenOver();return;}saveStatus();
+   if(result.unlocked?.length){clearTimeout(toastTimer);$('achievement-toast').textContent='成就解锁：'+result.unlocked.join(' · ');$('achievement-toast').hidden=false;toastTimer=setTimeout(()=>$('achievement-toast').hidden=true,4500);}
+  }catch{$('save-status').textContent='当前环境无法保存进度';}
+ }
+ function scheduleSave(){if(saveQueued||switching||!owns||!roundId)return;saveQueued=true;Promise.resolve().then(()=>{saveQueued=false;saveNow();});}
+ function savedDetails(r){return `<p>上次得分 <strong>${r.snapshot.score.toLocaleString('zh-CN')}</strong><br>最高合成：${r.snapshot.highest?SCHOOLS[r.snapshot.highest].name:'尚未合成'}<br>保存于 ${new Date(r.savedAt).toLocaleString('zh-CN')}</p>`;}
+ async function offerSaved(){
+  if(switching)return;switching=true;owns=false;roundId=null;game.pause();activePointer=null;
+  try{await store.claim();owns=true;const r=store.data.round;saveStatus();
+   if(r){game.restoreState(r.snapshot);aim=r.aim;showDialog('restore','<h2>继续上次挑战？</h2>'+savedDetails(r)+'<div class="dialog-actions"><button id="continue-saved" class="primary-button">继续上局</button><button id="new-saved" class="secondary-button">开始新局</button></div>',{closable:false});$('continue-saved').onclick=continueSaved;$('new-saved').onclick=restart;
+   }else if(store.issue){showDialog('restore',`<h2>无法恢复上局</h2><p>${esc(store.issue)}</p><button id="new-saved" class="primary-button">开始新局</button>`,{closable:false});$('new-saved').onclick=restart;
+   }else{switching=false;await restart();}
+  }finally{switching=false;}
+ }
+ async function continueSaved(){
+  if(switching)return;switching=true;owns=false;
+  try{await store.claim();owns=true;const r=store.data.round;
+   if(!r){switching=false;await offerSaved();return;}
+   roundId=r.id;game.restoreState(r.snapshot);aim=r.aim;switching=false;resume();saveStatus();
+  }finally{switching=false;}
+ }
+ async function showRecords(){
+  returnToPlaying=game.state==='playing';game.pause();activePointer=null;renderRecords();const revision=dialogRevision;
+  await saveNow();if(owns&&modalKind==='records'&&dialogRevision===revision)renderRecords();
+ }
+ function renderRecords(){
+  const s=store.data.stats;
+  showDialog('records',`<h2>本机记录</h2><dl class="record-stats"><div><dt>最高分</dt><dd>${s.bestScore.toLocaleString('zh-CN')}</dd></div><div><dt>最高合成学校</dt><dd>${s.highest<0?'尚未合成':SCHOOLS[s.highest].name}</dd></div><div><dt>累计通关</dt><dd>${s.wins} 次</dd></div></dl><h3>我的成就</h3><ul class="achievement-list">${MergeSave.ACHIEVEMENTS.map(a=>`<li class="${Object.hasOwn(s.achievements,a.id)?'unlocked':''}"><strong>${a.name}</strong><span>${Object.hasOwn(s.achievements,a.id)?'已解锁 · '+new Date(s.achievements[a.id]).toLocaleDateString('zh-CN'):a.condition}</span></li>`).join('')}</ul><p class="storage-note">${store.available?'记录仅保存在当前浏览器；清理浏览器数据会丢失记录。在线版与单文件版不共享存档。':'当前环境无法保存进度，记录仅在本次打开期间保留。'}</p>`);
+ }
+ window.addEventListener('storage',e=>{if(e.key===MergeSave.KEY&&owns){try{if(!e.newValue||JSON.parse(e.newValue).owner!==owner)takenOver();}catch{takenOver();}}});
+ setInterval(()=>{if(game?.state==='playing')saveNow();},1000);
+ window.addEventListener('pagehide',()=>{if(game?.state==='playing')game.pause();saveNow();});
  window.MergeAppStarted=true;
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function badge(c,level,x,y,r,angle=0){
@@ -187,6 +340,7 @@ window.BADGE_ASSETS = {"seu":{"rect":[0,0,578,578],"src":"data:image/png;base64,
  $('school-list').innerHTML=listMarkup();
  function sync(){
   if(!game)return;
+  if(ready)scheduleSave();
   $('score').textContent=game.score.toLocaleString('zh-CN');$('next-name').textContent=SCHOOLS[game.next].name;badgeElement($('next-badge'),game.next);
   $('status-label').textContent=({playing:'合成进行中',paused:'已暂停',won:'挑战成功',lost:'本局结束'})[game.state];
   $('progress-label').textContent=game.highest?'已合成：'+SCHOOLS[game.highest].short:'目标：东南大学';
@@ -197,16 +351,22 @@ window.BADGE_ASSETS = {"seu":{"rect":[0,0,578,578],"src":"data:image/png;base64,
   if(game.state!==lastState){lastState=game.state;if(game.state==='won'||game.state==='lost')showResult();}
  }
  function showDialog(kind,html,{closable=true}={}){
-  modalKind=kind;$('modal-content').innerHTML=html;$('close-modal').hidden=!closable;
+  dialogRevision++;modalKind=kind;$('modal-content').innerHTML=html;$('close-modal').hidden=!closable;
   if(!$('modal').open)$('modal').showModal();fillBadges($('modal'));
  }
- function closeDialog(){if($('modal').open)$('modal').close();modalKind='';}
- function resume(){closeDialog();activePointer=null;accumulator=0;lastFrame=performance.now();game?.resume();}
+ function closeDialog(){dialogRevision++;if($('modal').open)$('modal').close();modalKind='';}
+ function resume(){if(!owns){offerSaved();return;}closeDialog();activePointer=null;accumulator=0;lastFrame=performance.now();game?.resume();}
  function pause(reason='稍作休息，再接再厉'){
   if(!ready||!game||game.state!=='playing')return;
   activePointer=null;game.pause();showDialog('pause',`<p class="dialog-eyebrow">TAKE A BREAK</p><h2>游戏已暂停</h2><p>${reason}</p><div class="dialog-actions"><button class="primary-button" id="resume-game">继续游戏</button></div>`);$('resume-game').onclick=resume;
  }
- function restart(){closeDialog();particles.length=0;activePointer=null;lastState='';game.restart();aim=WIDTH/2;accumulator=0;lastFrame=performance.now();$('feedback').textContent='相同校徽碰在一起，就能合成下一级';sync();}
+ async function restart(){
+  if(switching)return;const pending=saveNow();switching=true;game.pause();await pending;if(!owns){switching=false;await offerSaved();return;}
+  try{closeDialog();particles.length=0;activePointer=null;lastState='';game.restart();game.pause();aim=WIDTH/2;roundId=uid();
+   const result=await store.start(roundId,game.exportState(),aim);if(result.conflict){takenOver();return;}
+   accumulator=0;lastFrame=performance.now();$('feedback').textContent='相同校徽碰在一起，就能合成下一级';switching=false;game.resume();saveStatus();sync();
+  }finally{switching=false;}
+ }
  function requestRestart(){
   if(!ready)return;
   if(game.bodies.size===0||['won','lost'].includes(game.state)){restart();return;}
@@ -225,11 +385,11 @@ window.BADGE_ASSETS = {"seu":{"rect":[0,0,578,578],"src":"data:image/png;base64,
   showDialog('guide',`<h2>合成图鉴</h2><p>两个相同校徽，合成下一级</p><ol class="modal-list">${listMarkup()}</ol><p class="ranking-note">前九级参考 2026 软科中国大学排名主榜。<br>南大 → 东大为本游戏趣味设定。</p>`);
  }
  function dismiss(){
-  if(modalKind==='result')return;
+  if(['result','restore','takeover'].includes(modalKind))return;
   if(modalKind==='pause'){resume();return;}
   const shouldResume=returnToPlaying;closeDialog();if(shouldResume)resume();else if(game?.state==='paused'){showDialog('pause','<h2>游戏已暂停</h2><div class="dialog-actions"><button class="primary-button" id="resume-game">继续游戏</button></div>');$('resume-game').onclick=resume;}
  }
- $('pause').onclick=()=>game?.state==='paused'?resume():pause();$('restart').onclick=requestRestart;$('guide').onclick=showGuide;$('close-modal').onclick=dismiss;
+ $('pause').onclick=()=>game?.state==='paused'?resume():pause();$('restart').onclick=requestRestart;$('guide').onclick=showGuide;$('records').onclick=showRecords;$('close-modal').onclick=dismiss;
  $('modal').addEventListener('cancel',e=>{e.preventDefault();dismiss();});
  function aimAt(clientX){const rect=canvas.getBoundingClientRect();aim=Math.max(12+SCHOOLS[game?.current||0].radius,Math.min(WIDTH-12-SCHOOLS[game?.current||0].radius,(clientX-rect.left)/rect.width*WIDTH));}
  function drop(){if(!ready||$('modal').open)return false;const dropped=game.drop(aim);if(dropped){$('first-hint').hidden=true;canvas.focus({preventScroll:true});}return dropped;}
@@ -238,13 +398,14 @@ window.BADGE_ASSETS = {"seu":{"rect":[0,0,578,578],"src":"data:image/png;base64,
  canvas.addEventListener('pointerup',e=>{if(e.pointerId!==activePointer)return;aimAt(e.clientX);activePointer=null;if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);drop();});
  canvas.addEventListener('pointercancel',()=>activePointer=null);canvas.addEventListener('lostpointercapture',()=>activePointer=null);
  canvas.addEventListener('keydown',e=>{if(!ready||game.state!=='playing')return;if(['ArrowLeft','ArrowRight',' ','Enter'].includes(e.key)){e.preventDefault();if(e.key==='ArrowLeft')aim=Math.max(SCHOOLS[game.current].radius+12,aim-15);else if(e.key==='ArrowRight')aim=Math.min(WIDTH-SCHOOLS[game.current].radius-12,aim+15);else if(!e.repeat)drop();}});
- document.addEventListener('visibilitychange',()=>{if(!document.hidden)return;activePointer=null;if(game?.state==='playing')pause('返回游戏后，点击继续。');else if(game?.state==='paused')returnToPlaying=false;});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)return;activePointer=null;if(game?.state==='playing')pause('返回游戏后，点击继续。');else if(game?.state==='paused')returnToPlaying=false;saveNow();});
  function draw(){
   ctx.setTransform(canvas.width/WIDTH,0,0,canvas.height/HEIGHT,0,0);ctx.clearRect(0,0,WIDTH,HEIGHT);
   ctx.fillStyle='#e9ede2';for(let x=30;x<WIDTH;x+=25)for(let y=140;y<HEIGHT-20;y+=25){ctx.beginPath();ctx.arc(x,y,.65,0,7);ctx.fill();}
   ctx.strokeStyle='#dce3d3';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(10,LINE+17);ctx.lineTo(10,HEIGHT-24);ctx.quadraticCurveTo(10,HEIGHT-10,24,HEIGHT-10);ctx.lineTo(WIDTH-24,HEIGHT-10);ctx.quadraticCurveTo(WIDTH-10,HEIGHT-10,WIDTH-10,HEIGHT-24);ctx.lineTo(WIDTH-10,LINE+17);ctx.stroke();
   ctx.save();ctx.setLineDash([5,7]);ctx.strokeStyle=game?.danger>0?'#c07156':'#d3b9a0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(15,LINE);ctx.lineTo(WIDTH-15,LINE);ctx.stroke();ctx.restore();
-  ctx.fillStyle=game?.danger>0?'#b96042':'#baa990';ctx.font='11px "Microsoft YaHei", sans-serif';ctx.textAlign='right';ctx.fillText(game?.danger>0?`即将越线 · ${Math.max(0,(2000-game.danger)/1000).toFixed(1)}秒`:'警戒线',WIDTH-20,LINE-8);
+  $('board').classList.toggle('is-danger',game?.danger>0&&game.state==='playing');
+  ctx.fillStyle=game?.danger>0?'#b96042':'#baa990';ctx.font='11px "Microsoft YaHei", sans-serif';ctx.textAlign='right';ctx.fillText(game?.danger>0?`已越线 · 剩余 ${Math.max(0,(2000-game.danger)/1000).toFixed(1)}秒`:'警戒线',WIDTH-20,LINE-8);
   if(game){for(const b of game.bodies.values())badge(ctx,b.plugin.level,b.position.x,b.position.y,b.circleRadius,b.angle);
    if(ready&&game.state==='playing'){
     const r=SCHOOLS[game.current].radius;aim=Math.max(r+12,Math.min(WIDTH-r-12,aim));
@@ -267,13 +428,13 @@ window.BADGE_ASSETS = {"seu":{"rect":[0,0,578,578],"src":"data:image/png;base64,
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)for(let i=0;i<10;i++){const a=i*Math.PI/5;particles.push({x:e.x,y:e.y,vx:Math.cos(a)*2,vy:Math.sin(a)*2,size:2+Math.random()*2,life:28,color:SCHOOLS[e.level].color});}
  }
  async function load(){
-  const attempt=++loadingAttempt;ready=false;GameBoot.begin();$('retry').hidden=true;$('loading').hidden=false;$('loading-text').textContent='正在准备校徽…';$('loading').querySelector('.loader').hidden=false;
+  const attempt=++loadingAttempt;let loaded=0,failed=false;ready=false;GameBoot.begin();$('retry').hidden=true;$('loading').hidden=false;$('loading-text').textContent='正在准备校徽 · 0 / 11';$('loading').querySelector('.loader').hidden=false;
   try{
-   await Promise.all(SCHOOLS.map(s=>new Promise((resolve,reject)=>{const im=new Image(),timeout=setTimeout(()=>reject(new Error(s.name)),15000);im.onload=()=>{clearTimeout(timeout);images.set(s.id,im);resolve();};im.onerror=()=>{clearTimeout(timeout);reject(new Error(s.name));};im.src=sources[s.id]?.src||`assets/${s.id}.png`;})));
+   await Promise.all(SCHOOLS.map(s=>new Promise((resolve,reject)=>{const im=new Image(),timeout=setTimeout(()=>reject(new Error(s.name)),15000);im.onload=()=>{clearTimeout(timeout);if(attempt!==loadingAttempt)return resolve();images.set(s.id,im);loaded++;if(!failed)$('loading-text').textContent=`正在准备校徽 · ${loaded} / ${SCHOOLS.length}`;resolve();};im.onerror=()=>{clearTimeout(timeout);reject(new Error(s.name));};im.src=sources[s.id]?.src||`assets/${s.id}.png`;})));
    if(attempt!==loadingAttempt)return;fillBadges();
-   game=createGame(Matter,{onChange:sync,onMerge});ready=true;GameBoot.ready();$('loading').hidden=true;sync();
+   game=createGame(Matter,{onChange:sync,onMerge});game.pause();ready=true;$('records').disabled=false;$('loading').hidden=true;sync();await offerSaved();GameBoot.ready();
    if(document.hidden)pause('返回游戏后，点击继续。');
-  }catch(e){if(attempt!==loadingAttempt)return;GameBoot.fail('resource',e.message);$('retry').onclick=load;}
+  }catch(e){failed=true;if(attempt!==loadingAttempt)return;GameBoot.fail('resource',e.message);$('retry').onclick=load;}
  }
  $('retry').onclick=load;requestAnimationFrame(frame);load();
  // Optional WebMCP: the same drop action and state as the visible game.

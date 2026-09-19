@@ -14,9 +14,18 @@
   ['nju','南京大学','南大',84,'#836195',null],
   ['seu','东南大学','东大',98,'#185746',null]
  ].map(([id,name,short,radius,color,rank])=>({id,name,short,radius,color,rank}));
+ function validateSnapshot(s){
+  const num=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
+  const int=(v,min,max)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
+  if(!s||s.version!==1||!['playing','paused','won','lost'].includes(s.state)||!int(s.score,0,Number.MAX_SAFE_INTEGER)||!int(s.highest,0,10)||!int(s.current,0,4)||!int(s.next,0,4)||!num(s.time,0,1e12)||!num(s.lastDrop,-1000,s.time)||!num(s.danger,0,2100)||!Array.isArray(s.pieces)||s.pieces.length>2000)throw new Error('无效的对局存档');
+  for(const p of s.pieces){
+   if(!p||!int(p.level,0,10)||!num(p.x,-WIDTH,WIDTH*2)||!num(p.y,-HEIGHT*3,HEIGHT*2)||!num(p.vx,-1e4,1e4)||!num(p.vy,-1e4,1e4)||!num(p.angle,-1e10,1e10)||!num(p.angularVelocity,-1e4,1e4)||!num(p.deltaTime,.001,1000)||!num(p.born,0,s.time)||typeof p.entered!=='boolean'||!(p.overSince===null||num(p.overSince,0,s.time)))throw new Error('无效的校徽存档');
+  }
+  return s;
+ }
  function createGame(M,options={}){
   const rng=options.rng||Math.random,notify=()=>options.onChange?.(g);
-  const g={engine:null,bodies:new Map(),state:'playing',score:0,time:0,danger:0,current:0,next:0,lastDrop:-1000,highest:0,drop,spawn,step,pause,resume,restart};
+  const g={engine:null,bodies:new Map(),state:'playing',score:0,time:0,danger:0,current:0,next:0,lastDrop:-1000,highest:0,drop,spawn,step,pause,resume,restart,exportState,restoreState};
   let queue=[];
   function randomLevel(){return Math.min(4,Math.max(0,Math.floor(rng()*5)));}
   function restart(){
@@ -75,7 +84,19 @@
   }
   function pause(){if(g.state==='playing'){g.state='paused';notify();}}
   function resume(){if(g.state==='paused'){g.state='playing';notify();}}
+  function exportState(){
+   return {version:1,state:g.state,score:g.score,time:g.time,danger:g.danger,current:g.current,next:g.next,lastDrop:g.lastDrop,highest:g.highest,pieces:[...g.bodies.values()].map(b=>({level:b.plugin.level,x:b.position.x,y:b.position.y,vx:M.Body.getVelocity(b).x,vy:M.Body.getVelocity(b).y,angle:b.angle,angularVelocity:M.Body.getAngularVelocity(b),deltaTime:b.deltaTime,born:b.plugin.born,entered:b.plugin.entered,overSince:b.plugin.overSince}))};
+  }
+  function restoreState(snapshot){
+   const s=validateSnapshot(snapshot);
+   if(!['playing','paused'].includes(s.state))throw new Error('已结束对局不能恢复');
+   restart();
+   for(const key of ['score','time','danger','current','next','lastDrop','highest'])g[key]=s[key];
+   g.engine.timing.timestamp=s.time;
+   for(const p of s.pieces){const b=spawn(p.level,p.x,p.y,{born:p.born,entered:p.entered,overSince:p.overSince});M.Body.setPosition(b,{x:p.x,y:p.y});M.Body.setAngle(b,p.angle);b.deltaTime=p.deltaTime;M.Body.setVelocity(b,{x:p.vx,y:p.vy});M.Body.setAngularVelocity(b,p.angularVelocity);}
+   g.state='paused';queue=[];notify();return g;
+  }
   restart();return g;
  }
- return {createGame,SCHOOLS,WIDTH,HEIGHT,LINE};
+ return {createGame,SCHOOLS,WIDTH,HEIGHT,LINE,validateSnapshot};
 });
