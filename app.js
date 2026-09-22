@@ -9,7 +9,7 @@
  let game=null,ready=false,aim=WIDTH/2,activePointer=null,lastFrame=0,accumulator=0,modalKind='',returnToPlaying=false,lastState='',loadingAttempt=0;
  const uid=()=>globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
  const owner=uid(),store=MergeSave.createStore({owner,storage:()=>window.localStorage,lock:navigator.locks?.request?fn=>navigator.locks.request(MergeSave.LOCK,fn):null});
- let roundId=null,owns=false,switching=false,saveQueued=false,toastTimer,dialogRevision=0;
+ let roundId=null,owns=false,switching=false,saveQueued=false,toastTimer,dialogRevision=0,leaving=false,homeOrigin='';
  function saveStatus(){
   $('save-status').textContent=!store.available?'当前环境无法保存进度':!owns?'对局已在其他页面打开':store.data.round?'已保存 '+new Date(store.data.round.savedAt).toLocaleTimeString('zh-CN',{hour12:false}):'记录已保存';
  }
@@ -19,10 +19,22 @@
   $('read-latest').onclick=offerSaved;
  }
  async function saveNow(){
-  if(!ready||!owns||switching||!roundId)return;
-  try{const result=await store.save(roundId,game.exportState(),aim);if(result.conflict){takenOver();return;}saveStatus();
+  if(!ready||!owns||switching||!roundId)return false;
+  try{const result=await store.save(roundId,game.exportState(),aim);if(result.conflict){takenOver();return false;}saveStatus();
    if(result.unlocked?.length){clearTimeout(toastTimer);$('achievement-toast').textContent='成就解锁：'+result.unlocked.join(' · ');$('achievement-toast').hidden=false;toastTimer=setTimeout(()=>$('achievement-toast').hidden=true,4500);}
-  }catch{$('save-status').textContent='当前环境无法保存进度';}
+   return result.available;
+  }catch{$('save-status').textContent='当前环境无法保存进度';return false;}
+ }
+ async function returnHome(e){
+  if(!ready)return;
+  e.preventDefault();if(leaving||switching)return;leaving=true;
+  homeOrigin=modalKind;returnToPlaying=game.state==='playing';activePointer=null;game.pause();
+  showDialog('home-saving','<h2>正在保存本局…</h2><p>保存完成后返回主页。</p>',{closable:false});
+  try{const saved=await saveNow();if(modalKind!=='home-saving')return;
+   if(saved){location.assign($('home-link').href);return;}
+   showDialog('home-warning','<h2>本局可能无法恢复</h2><p>当前环境未能保存进度。返回主页可能丢失本局。</p><div class="dialog-actions"><button id="stay-game" class="primary-button">留在游戏</button><button id="leave-anyway" class="secondary-button">仍然返回</button></div>',{closable:false});
+   $('stay-game').onclick=dismiss;$('leave-anyway').onclick=()=>location.assign($('home-link').href);
+  }finally{leaving=false;}
  }
  function scheduleSave(){if(saveQueued||switching||!owns||!roundId)return;saveQueued=true;Promise.resolve().then(()=>{saveQueued=false;saveNow();});}
  function savedDetails(r){return `<p>上次得分 <strong>${r.snapshot.score.toLocaleString('zh-CN')}</strong><br>最高合成：${r.snapshot.highest?SCHOOLS[r.snapshot.highest].name:'尚未合成'}<br>保存于 ${new Date(r.savedAt).toLocaleString('zh-CN')}</p>`;}
@@ -52,6 +64,7 @@
  window.addEventListener('storage',e=>{if(e.key===MergeSave.KEY&&owns){try{if(!e.newValue||JSON.parse(e.newValue).owner!==owner)takenOver();}catch{takenOver();}}});
  setInterval(()=>{if(game?.state==='playing')saveNow();},1000);
  window.addEventListener('pagehide',()=>{if(game?.state==='playing')game.pause();saveNow();});
+ window.addEventListener('pageshow',e=>{if(e.persisted&&ready&&['home-saving','home-warning'].includes(modalKind))offerSaved();});
  window.MergeAppStarted=true;
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function badge(c,level,x,y,r,angle=0){
@@ -102,21 +115,23 @@
   $('confirm-restart').onclick=restart;$('cancel-restart').onclick=dismiss;
  }
  function celebrate(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;for(let i=0;i<35;i++){const e=document.createElement('i');e.className='confetti';e.style.left=Math.random()*100+'vw';e.style.background=['#c39a53','#255f4c','#b4c4a3','#fffdf4'][i%4];e.style.animationDelay=Math.random()*.8+'s';e.style.setProperty('--drift',(Math.random()-.5)*280+'px');document.body.append(e);setTimeout(()=>e.remove(),4000);}}
- function showResult(){
+ function showResult(animate=true){
   activePointer=null;const won=game.state==='won';
-  showDialog('result',`<p class="dialog-eyebrow">${won?'CHALLENGE COMPLETE':'NICE TRY'}</p>${won?'<canvas class="dialog-badge" data-school="10" width="280" height="280" role="img" aria-label="东南大学校徽"></canvas>':''}<h2>${won?'东南大学，合成成功！':'差一点，就到下一站'}</h2><p>${won?'从第一枚校徽，到这一次圆满。':'校徽越过警戒线，下局再接再厉。'}</p><span class="label">本局得分</span><div class="result-score">${game.score.toLocaleString('zh-CN')}</div><div class="dialog-actions"><button class="primary-button" id="play-again">再玩一次</button></div>`,{closable:false});
-  $('play-again').onclick=restart;if(won)celebrate();
+  showDialog('result',`<p class="dialog-eyebrow">${won?'CHALLENGE COMPLETE':'NICE TRY'}</p>${won?'<canvas class="dialog-badge" data-school="10" width="280" height="280" role="img" aria-label="东南大学校徽"></canvas>':''}<h2>${won?'东南大学，合成成功！':'差一点，就到下一站'}</h2><p>${won?'从第一枚校徽，到这一次圆满。':'校徽越过警戒线，下局再接再厉。'}</p><span class="label">本局得分</span><div class="result-score">${game.score.toLocaleString('zh-CN')}</div><div class="dialog-actions"><button class="primary-button" id="play-again">再玩一次</button><button class="secondary-button" id="result-home">返回主页</button></div>`,{closable:false});
+  $('play-again').onclick=restart;$('result-home').onclick=returnHome;if(won&&animate)celebrate();
  }
  function showGuide(){
   returnToPlaying=game?.state==='playing';game?.pause();activePointer=null;
   showDialog('guide',`<h2>合成图鉴</h2><p>两个相同校徽，合成下一级</p><ol class="modal-list">${listMarkup()}</ol><p class="ranking-note">前九级参考 2026 软科中国大学排名主榜。<br>南大 → 东大为本游戏趣味设定。</p>`);
  }
  function dismiss(){
-  if(['result','restore','takeover'].includes(modalKind))return;
+  if(modalKind==='home-warning'&&homeOrigin==='result'){showResult(false);return;}
+  if(['result','restore','takeover','home-saving'].includes(modalKind))return;
   if(modalKind==='pause'){resume();return;}
   const shouldResume=returnToPlaying;closeDialog();if(shouldResume)resume();else if(game?.state==='paused'){showDialog('pause','<h2>游戏已暂停</h2><div class="dialog-actions"><button class="primary-button" id="resume-game">继续游戏</button></div>');$('resume-game').onclick=resume;}
  }
  $('pause').onclick=()=>game?.state==='paused'?resume():pause();$('restart').onclick=requestRestart;$('guide').onclick=showGuide;$('records').onclick=showRecords;$('close-modal').onclick=dismiss;
+ $('home-link').onclick=returnHome;
  $('modal').addEventListener('cancel',e=>{e.preventDefault();dismiss();});
  function aimAt(clientX){const rect=canvas.getBoundingClientRect();aim=Math.max(12+SCHOOLS[game?.current||0].radius,Math.min(WIDTH-12-SCHOOLS[game?.current||0].radius,(clientX-rect.left)/rect.width*WIDTH));}
  function drop(){if(!ready||$('modal').open)return false;const dropped=game.drop(aim);if(dropped){$('first-hint').hidden=true;canvas.focus({preventScroll:true});}return dropped;}

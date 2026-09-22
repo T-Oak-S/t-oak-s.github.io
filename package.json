@@ -1,0 +1,13 @@
+{
+  "name": "merge-seu",
+  "version": "1.0.1",
+  "private": true,
+  "description": "南京高校校徽合成小游戏",
+  "scripts": {
+    "export": "node scripts/export-single.cjs",
+    "test": "node --test --test-isolation=none tests/*.test.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.0"
+  }
+}
